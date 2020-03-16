@@ -15,4 +15,4 @@ else:
                 print ("These are the entries")
                 print (birthdays)
         else:
-                print ("Not adding as a friend")
+                print ("You have choosen not to add them to your birthday reminders")
