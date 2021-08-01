@@ -59,14 +59,14 @@ for val in range(0, len(res)):
 
 # Funtion to Get CpuUsage per app and write into a file
 
-def GetCpuUsage(app_name):
+def get_cpu_usage(app_name):
    next_url = "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/" + app_name + "/dashboardStats" 
    headers_api = {
       "Authorization": bearer,
       "X-ANYPNT-ENV-ID": EnvId
       }
-   GetApi = requests.get(next_url, headers=headers_api )
-   decode_text = json.loads(GetApi.text)
+   get_api = requests.get(next_url, headers=headers_api )
+   decode_text = json.loads(get_api.text)
    cpu_utilization = []
    if len(decode_text["workerStatistics"]) == 0:
        print ("If this is set to 0 then skip it")
@@ -95,4 +95,4 @@ WriteIntoFile.writerow([str("app_name"),str("DateAndTime"), str("CpuUsage")])
 
 for a in range(0, len(apps)):
    app_name = apps[a]
-   appname_Log =  GetCpuUsage(app_name) 
+   appname_Log =  get_cpu_usage(app_name) 
