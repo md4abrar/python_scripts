@@ -70,7 +70,6 @@ def get_cpu_usage(app_name):
    cpu_utilization = []
    if len(decode_text["workerStatistics"]) == 0:
        print ("If this is set to 0 then skip it")
-       pass
    else:
        cpu_utilization = []
        cpu_utilization =  decode_text["workerStatistics"][0]["statistics"]["cpu"] 
