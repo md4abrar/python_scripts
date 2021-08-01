@@ -35,17 +35,17 @@ bearer = "Bearer " + token
 
 next_url = "https://anypoint.mulesoft.com/cloudhub/api/applications" 
 
-HeadersApi_generic = {
+headers_api_generic = {
    "Authorization": bearer,
    "X-ANYPNT-ENV-ID": EnvId, 
    "X-ANYPNT-ORG-ID": OrgId,
    }
    
-GetApi_generic = requests.get(next_url, headers=HeadersApi_generic )
+get_api_generic = requests.get(next_url, headers=headers_api_generic )
 
 ##GetApi_generic.text
 
-raw_content = GetApi_generic.content
+raw_content = get_api_generic.content
 res = json.loads(raw_content)
 
 ##########################################################
@@ -59,16 +59,17 @@ for val in range(0, len(res)):
 
 # Funtion to Get CpuUsage per app and write into a file
 
-def GetCpuUsage(Appname):
-   next_url = "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/" + Appname + "/dashboardStats" 
-   HeadersApi = {
+def GetCpuUsage(app_name):
+   next_url = "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/" + app_name + "/dashboardStats" 
+   headers_api = {
       "Authorization": bearer,
       "X-ANYPNT-ENV-ID": EnvId
       }
-   GetApi = requests.get(next_url, headers=HeadersApi )
+   GetApi = requests.get(next_url, headers=headers_api )
    decode_text = json.loads(GetApi.text)
    cpu_utilization = []
    if len(decode_text["workerStatistics"]) == 0:
+       print ("If this is set to 0 then skip it")
        pass
    else:
        cpu_utilization = []
@@ -80,18 +81,18 @@ def GetCpuUsage(Appname):
        max_cpu_k = cpu_keys[max_cpu_index_v] 
        key = int(max_cpu_k[:-3])
        stdtime = time.strftime("%b %d %Y %H:%M:%S", time.localtime(key))  
-       WriteIntoFile.writerow([str(Appname), stdtime, max_cpu_v])
+       WriteIntoFile.writerow([str(app_name), stdtime, max_cpu_v])
    return cpu_utilization 
 
 
 # Open a file to write
 
 WriteIntoFile = csv.writer(open("CpuUtilizationLogs.csv", "a+", newline=''))
-WriteIntoFile.writerow([str("Appname"),str("DateAndTime"), str("CpuUsage")])
+WriteIntoFile.writerow([str("app_name"),str("DateAndTime"), str("CpuUsage")])
 
 
 # Loop across apps and spawn the function GetCpuUsage
 
 for a in range(0, len(apps)):
-   Appname = apps[a]
-   Appname_Log =  GetCpuUsage(Appname) 
+   app_name = apps[a]
+   appname_Log =  GetCpuUsage(app_name) 
