@@ -1,0 +1,9 @@
+{
+"name": "abcd-exp-api",
+"type": "SCRIPT_BROWSER",
+"frequency": 5,
+"uri": "",
+"locations": ["AWS_US_WEST_1"],
+"status": "ENABLED",
+"slaThreshold": 7.0
+}
